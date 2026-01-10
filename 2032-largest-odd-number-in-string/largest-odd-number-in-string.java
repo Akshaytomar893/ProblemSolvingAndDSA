@@ -1,16 +1,15 @@
 class Solution {
     public String largestOddNumber(String num) {
         int lastIndex = -1;
-        String ans = "";
-        boolean isOddFound = false;
         for(int i = num.length() - 1 ; i >= 0; i--){
-            if(!isOddFound && (int)num.charAt(i)%2 == 1 ){
-                isOddFound = true;
-            }
-            if(isOddFound){
-                ans = num.charAt(i)+ans;
+            if((int)num.charAt(i)%2 == 1 ){
+                lastIndex = i;
+                break;
             }
         }
-       return ans;
+       if(lastIndex == -1){
+        return "";
+       }
+       else return num.substring(0, lastIndex+1);
     }
 }
