@@ -1,6 +1,5 @@
 class Solution {
     public String removeKdigits(String num, int k) {
-        String result = "";
         Deque<Character> st = new ArrayDeque<>();
         for (int i = 0; i < num.length(); i++) {
             while (!st.isEmpty() && k > 0 && (st.peek() - '0' > num.charAt(i) - '0')) {
@@ -15,10 +14,12 @@ class Solution {
         }
         if (st.isEmpty())
             return "0";
+        StringBuilder sb = new StringBuilder();
         while (!st.isEmpty()) {
-            result = st.peek() + result;
-            st.pop();
+            sb.append(st.pop());
         }
+        sb.reverse();
+        String result = sb.toString();
         int i = 0;
         while (i < result.length() - 1 && result.charAt(i) == '0') {
             i++;
