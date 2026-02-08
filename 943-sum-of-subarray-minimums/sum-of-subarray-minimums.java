@@ -1,9 +1,9 @@
-import java.util.Stack;
+import java.util.*;
 class Solution {
 
     private int[] findNextSmallerElementIndex(int[] arr){
         int[] nse = new int[arr.length];
-        Stack<Integer> st = new Stack<>();
+     Deque<Integer> st = new ArrayDeque<>();
         for(int i = arr.length - 1; i >=0 ; i--){
             while(!st.isEmpty() && arr[st.peek()] >= arr[i]){
                 st.pop();
@@ -15,7 +15,7 @@ class Solution {
     }
     private int[] findPreviousSmallerOrEqualIndex(int[] arr){
         int[] psee = new int[arr.length];
-        Stack<Integer> st = new Stack<>();
+       Deque<Integer> st = new ArrayDeque<>();
         for(int i = 0; i < arr.length; i++){
             while(!st.isEmpty() && arr[st.peek()] > arr[i]){
                 st.pop();
