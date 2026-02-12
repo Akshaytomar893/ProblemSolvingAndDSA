@@ -1,15 +1,18 @@
 import java.util.HashMap;
+
 class LRUCache {
-    class Node{
+    class Node {
         int key;
         int val;
         Node prev;
         Node next;
-        Node(int _key, int _val){
+
+        Node(int _key, int _val) {
             this.key = _key;
             this.val = _val;
         }
     }
+
     HashMap<Integer, Node> LRU = new HashMap<>();
     int size;
     Node head = new Node(-1, -1);
@@ -17,43 +20,41 @@ class LRUCache {
 
     public LRUCache(int capacity) {
         this.size = capacity;
-        head.next=tail;
-        tail.prev=head;
+        head.next = tail;
+        tail.prev = head;
     }
-    private void deleteNode(Node node){
+
+    private void deleteNode(Node node) {
         Node delPrev = node.prev;
         Node delNext = node.next;
         delPrev.next = delNext;
         delNext.prev = delPrev;
     }
-    private void addNode(Node node){
-        node.next=head.next;
-        head.next.prev= node;
-        head.next= node;
-        node.prev=head;
-    }
-    
-    public int get(int key) {
-        if(LRU.containsKey(key)){
-            Node result = LRU.get(key);
-            int val = result.val;
-            deleteNode(result);
-            LRU.remove(key);
-            Node newNode = new Node(key, val);
-            LRU.put(key, newNode);
-            addNode(newNode);
 
-            return val;
-        }
-        return -1;
+    private void addNode(Node node) {
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+        node.prev = head;
     }
-    
+
+    public int get(int key) {
+        Node node = LRU.get(key);
+        if (node == null)
+            return -1;
+
+        deleteNode(node);
+        addNode(node);
+        return node.val;
+
+    }
+
     public void put(int key, int value) {
-        if(LRU.containsKey(key)){
+        if (LRU.containsKey(key)) {
             deleteNode(LRU.get(key));
             LRU.remove(key);
         }
-        if(LRU.size() == size){
+        if (LRU.size() == size) {
             LRU.remove(tail.prev.key);
             deleteNode(tail.prev);
         }
